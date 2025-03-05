@@ -7,11 +7,11 @@ function App() {
   const [fund, setFund] = useState(null);
 
   const setNewFund = (e) => {
-    const fund = parseInt(new FormData(e.target).get("fund"), 10);
+    const inputFund = parseInt(new FormData(e.target).get("fund"), 10);
     
-    if (!isNaN(fund)) {
+    if (!isNaN(inputFund)) {
       const newFund = new Fund();
-      newFund.setFund(fund)
+      newFund.setFund(inputFund)
       
       setFund(newFund);
     }

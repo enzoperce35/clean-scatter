@@ -4,21 +4,21 @@ export default function Scatter({ fund }) {
   const [fundUpdated, setFundUpdated] = useState(false);
   const [endGame, setEndGame] = useState(false);
   const bets = [0.5, 1, 2, 3, 5, 10, 20, 30, 40, 50, 80, 100, 200, 500, 1000];
-  const spins = 25;
+  const spins = fund.hasSignificantIncrease() && fund.isIncreasing() ? 14 : 25;
 
   const calculateBet = () => {
-    const play = (test = false) => {
+    const play = (test = false) => { console.log(`to test: ${test}`)
       const playable = (fund.fund / (test ? 5 : 2)) / 25;
       return bets.filter((bet) => bet <= playable).pop() || bets[0]; // Get the closest smaller bet
     };
 
-    const rebound = () => {
+    const rebound = () => { console.log(`to rebound`)
       const playable = (fund.fund - fund.newFund) / 100;
       const reboundBet = bets.find((bet) => bet >= playable) || null; // Get the closest higher bet
       return reboundBet;
     };
 
-    return fund.isIncreasing() ? play(fund.updated()) : rebound();
+    return fund.isIncreasing() ? play(fund.hasSignificantIncrease()) : rebound();
   };
 
   const [bet, setBet] = useState(() => calculateBet());
