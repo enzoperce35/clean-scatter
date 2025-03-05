@@ -23,7 +23,7 @@ export default function Scatter({ fund }) {
 
   const [bet, setBet] = useState(() => calculateBet());
 
-  useEffect(() => {
+  useEffect(() => { 
     const newBet = calculateBet();
     setBet(newBet);
 

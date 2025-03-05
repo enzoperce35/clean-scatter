@@ -10,6 +10,7 @@ class Fund {
     const fundValue = parseInt(value, 10);
     if (!isNaN(fundValue)) {
       this.fund = fundValue;
+      this.newFund = fundValue;
       this.newHigh = fundValue;
     }
   }
