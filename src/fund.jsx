@@ -4,6 +4,7 @@ class Fund {
     this.newFund = this.fund;
     this.newHigh = 0;
     this.increase = null;
+    this.decrease = 0;
   }
 
   setFund(value) {
@@ -12,6 +13,7 @@ class Fund {
       this.fund = fundValue;
       this.newFund = fundValue;
       this.newHigh = fundValue;
+      this.decrease = 0;
     }
   }
 
@@ -20,11 +22,18 @@ class Fund {
     
     if (!isNaN(newFund)) {
       // Calculate percentage change between newHigh and newFund
-      this.increase = ((newFund - this.newFund) / this.newFund) * 100;
+      let change = ((newFund - this.newFund) / this.newFund) * 100;
+
+      if (change < 0) {
+        this.decrease += Math.abs(change);
+        this.increase = 0;
+      } else {
+        this.increase = change;
+      }
 
       this.newFund = newFund;
       
-      // Automatically update this.fund if newFund is at least double the original fund
+      // Automatically update this.fund if newFund is at least 50% higher than this.fund
       if (this.newFund >= 1.5 * this.fund) {
         this.setFund(this.newFund);
       }

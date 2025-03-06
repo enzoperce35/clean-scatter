@@ -5,6 +5,7 @@ export default function Scatter({ fund }) {
   const [endGame, setEndGame] = useState(false);
   const bets = [0.5, 1, 2, 3, 5, 10, 20, 30, 40, 50, 80, 100, 200, 500, 1000];
   const spins = fund.hasSignificantIncrease() && fund.isIncreasing() ? 14 : 25;
+  const [textEffect, setTextEffect] = useState(false);
 
   const calculateBet = () => {
     const play = (test = false) => { console.log(`to test: ${test}`)
@@ -23,17 +24,19 @@ export default function Scatter({ fund }) {
 
   const [bet, setBet] = useState(() => calculateBet());
 
-  useEffect(() => { 
+  useEffect(() => {
     const newBet = calculateBet();
+    const overTheSafeLine = (fund.newFund - (newBet * spins)) < fund.fund / 2
+    const suspiciousDecline = fund.decrease >= 500 && fund.newFund <= fund.fund * 0.75;
+
     setBet(newBet);
 
-    // ✅ End game condition check (only updates state if necessary)
-    if (!fund.isIncreasing() && newBet && fund.newFund - newBet * spins < fund.fund / 2) {
-      setEndGame((prev) => prev || true); // Ensures it updates only once
+    if (!fund.isIncreasing() && newBet && (overTheSafeLine || suspiciousDecline)) {
+      setEndGame((prev) => prev || true);
     }
-  }, [fund.fund, fund.newFund]); // Dependencies ensure this runs only when necessary
+  }, [fund.fund, fund.newFund]);
 
-  function setNewFund(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     const newFund = parseInt(new FormData(e.target).get("new-fund"), 10);
@@ -42,14 +45,17 @@ export default function Scatter({ fund }) {
       fund.setNewFund(newFund);
       setFundUpdated((prev) => !prev);
     }
+
+    setTextEffect(false);
+    setTimeout(() => setTextEffect(true), 10);
   }
 
   return (
     <div>
-      <h1>{endGame ? "No More Spins: This Is Not Going To Be Good!" : `Spin ${spins} times on Bet ${bet}`}</h1>
+      <h1 className={textEffect ? "appear-active" : ""}>{endGame ? "No More Spins: This Is Not Going To Be Good!" : `Spin ${spins} times on Bet ${bet}`}</h1>
 
       <div className={endGame ? 'hidden' : ''}>
-        <form id="spin-result" onSubmit={setNewFund}>
+        <form id="spin-result" onSubmit={handleSubmit}>
           <div>
             <div className="result-form">
               <input
@@ -67,6 +73,8 @@ export default function Scatter({ fund }) {
           </div>
         </form>
       </div>
+
+      <h1 id="dev-text">{`${parseInt(fund.decrease, 10)}/500`}</h1>
     </div>
   );
 }

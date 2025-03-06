@@ -2,13 +2,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 95vh; /* Adjusted to make elements appear a bit higher */
   margin: 0;
   padding: 1rem;
 }
 
 h1 {
-  padding-bottom: 5vh;
+  padding-bottom: 4vh; /* Reduced from 5vh to move up */
   font-size: 1.5rem;
 }
 
@@ -24,11 +24,11 @@ h1 {
 .result-form {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem; /* Reduced spacing */
 }
 
 label {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem; /* Slightly reduced spacing */
   font-weight: bold;
   font-size: 1rem;
 }
@@ -36,18 +36,20 @@ label {
 input {
   width: 80%;
   margin: auto;
-  padding: 0.75rem;
+  padding: 0.7rem; /* Slightly reduced padding */
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
+  text-align: center; /* Centers text inside input fields */
 }
 
 input[type="submit"] {
   width: 50%;
-  padding: 0.75rem;
+  padding: 0.7rem;
   font-size: 1rem;
   border-radius: 6px;
   cursor: pointer;
+  margin-top: 1.2rem; /* Adds space above the submit button */
 }
 
 .hidden {
@@ -57,21 +59,36 @@ input[type="submit"] {
 /* Mobile-specific adjustments */
 @media (max-width: 600px) {
   body {
-    padding: 0.5rem;
+    padding-top: 5rem;
+    min-height: 60vh; /* Adjusted for a slightly higher appearance */
   }
 
   h1 {
     font-size: 1.2rem;
-    padding-bottom: 3vh;
+    padding-bottom: 8vh; /* Reduced padding */
   }
 
   input {
-    width: 100%;
     font-size: 1rem;
-    padding: 0.6rem;
+    padding: 0.55rem; /* Reduced padding for a tighter layout */
   }
 
   input[type="submit"] {
-    width: 80%;
+    width: 60%;
   }
 }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.appear-active {
+  animation: fadeIn 2s ease-out forwards;
+  opacity: 0; /* Start hidden */
+}
+
