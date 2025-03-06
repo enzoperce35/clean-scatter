@@ -27,7 +27,7 @@ export default function Scatter({ fund }) {
   useEffect(() => {
     const newBet = calculateBet();
     const overTheSafeLine = (fund.newFund - (newBet * spins)) < fund.fund / 2
-    const suspiciousDecline = fund.decrease >= 500 && fund.newFund <= fund.fund * 0.75;
+    const suspiciousDecline = fund.decrease >= 35 && fund.newFund <= fund.fund * 0.75;
 
     setBet(newBet);
 
@@ -74,7 +74,7 @@ export default function Scatter({ fund }) {
         </form>
       </div>
 
-      <h1 id="dev-text">{`${parseInt(fund.decrease, 10)}/500`}</h1>
+      <h1 className="">{`${parseInt(fund.decrease, 10)}/35`}</h1>
     </div>
   );
 }

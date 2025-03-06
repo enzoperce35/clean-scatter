@@ -59,7 +59,7 @@ input[type="submit"] {
 /* Mobile-specific adjustments */
 @media (max-width: 600px) {
   body {
-    padding-top: 5rem;
+    padding-top: 4rem;
     min-height: 60vh; /* Adjusted for a slightly higher appearance */
   }
 
