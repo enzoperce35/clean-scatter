@@ -2,14 +2,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 95vh; /* Adjusted to make elements appear a bit higher */
+  min-height: 95vh;
   margin: 0;
   padding: 1rem;
+  background-color: #f8f9fa;
 }
 
 h1 {
-  padding-bottom: 4vh; /* Reduced from 5vh to move up */
-  font-size: 1.5rem;
+  padding-bottom: 3vh;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #333;
 }
 
 #root {
@@ -24,57 +27,95 @@ h1 {
 .result-form {
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.75rem; /* Reduced spacing */
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+  border-radius: 8px;
 }
 
 label {
-  margin-bottom: 0.4rem; /* Slightly reduced spacing */
   font-weight: bold;
   font-size: 1rem;
+  color: #555;
 }
 
 input {
-  width: 80%;
+  width: 85%;
   margin: auto;
-  padding: 0.7rem; /* Slightly reduced padding */
+  padding: 0.6rem;
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid #bbb;
   border-radius: 6px;
-  text-align: center; /* Centers text inside input fields */
+  text-align: center;
 }
 
 input[type="submit"] {
-  width: 50%;
-  padding: 0.7rem;
+  width: 40%;
+  padding: 0.6rem;
   font-size: 1rem;
   border-radius: 6px;
   cursor: pointer;
-  margin-top: 1.2rem; /* Adds space above the submit button */
+  margin-top: 1rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  transition: background 0.3s;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+#scatter-submit {
+  height: 5vh;
+  width: 30vw;
+  align-self: center;
+  margin-top: 3vh;
 }
 
 .hidden {
   display: none;
 }
 
-/* Mobile-specific adjustments */
+.records-toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
 @media (max-width: 600px) {
   body {
-    padding-top: 4rem;
-    min-height: 60vh; /* Adjusted for a slightly higher appearance */
+    padding-top: 1rem;
+    min-height: 70vh;
   }
 
   h1 {
-    font-size: 1.2rem;
-    padding-bottom: 8vh; /* Reduced padding */
+    font-size: 1.3rem;
+    padding-bottom: 5vh;
   }
 
   input {
-    font-size: 1rem;
-    padding: 0.55rem; /* Reduced padding for a tighter layout */
+    font-size: 0.9rem;
+    padding: 0.5rem;
   }
 
   input[type="submit"] {
-    width: 60%;
+    width: 50%;
+  }
+  
+  #scatter-submit {
+    height: 3.8vh;
   }
 }
 
@@ -88,7 +129,6 @@ input[type="submit"] {
 }
 
 .appear-active {
-  animation: fadeIn 2s ease-out forwards;
-  opacity: 0; /* Start hidden */
+  animation: fadeIn 1.5s ease-out forwards;
+  opacity: 0;
 }
-

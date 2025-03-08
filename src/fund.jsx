@@ -1,10 +1,9 @@
 class Fund {
   constructor() {
-    this.fund = this.getFund();
+    this.fund = null;
     this.newFund = this.fund;
     this.newHigh = 0;
-    this.increase = null;
-    this.decrease = 0;
+    this.change = null;
   }
 
   setFund(value) {
@@ -13,7 +12,6 @@ class Fund {
       this.fund = fundValue;
       this.newFund = fundValue;
       this.newHigh = fundValue;
-      this.decrease = 0;
     }
   }
 
@@ -21,16 +19,7 @@ class Fund {
     const newFund = parseInt(value, 10);
     
     if (!isNaN(newFund)) {
-      // Calculate percentage change between newHigh and newFund
-      let change = ((newFund - this.newFund) / this.newFund) * 100;
-
-      if (change < 0) {
-        this.decrease += Math.abs(change);
-        this.increase = 0;
-      } else {
-        this.increase = change;
-      }
-
+      this.change = ((newFund - this.newFund) / this.newFund) * 100;
       this.newFund = newFund;
       
       // Automatically update this.fund if newFund is at least 50% higher than this.fund
@@ -43,16 +32,12 @@ class Fund {
     }
   }
 
-  getFund() {
-    return parseInt(sessionStorage.getItem("fund"), 10) || 0;
-  }
-
   isIncreasing() {
     return this.newFund >= this.fund
   }
 
   hasSignificantIncrease() {
-    return this.increase === null || this.increase >= 30;
+    return this.change === null || this.change >= 30
   }
 }
 

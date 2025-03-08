@@ -12,13 +12,14 @@ function App() {
     if (!isNaN(inputFund)) {
       const newFund = new Fund();
       newFund.setFund(inputFund)
+
+      sessionStorage.setItem('initialFund', inputFund);
       
       setFund(newFund);
     }
     
     e.preventDefault();
   };
-
 
   return (
     <>
