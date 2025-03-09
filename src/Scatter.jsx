@@ -18,12 +18,13 @@ export default function Scatter({ fund }) {
   useEffect(() => {
     const newBet = calculateBet();
     setBet(newBet);
-
+  
     const suspiciousDecline = sumNegativeChanges() >= 25 && fund.newFund < fund.fund * 0.80;
     const overTheSafeLine = (fund.newFund - newBet * spins) < ((fund.newHigh / 2) + (0.40 * (fund.newHigh - initialFund)));
-    
+  
     if (!fund.isIncreasing() && newBet && (overTheSafeLine || suspiciousDecline)) {
       setEndGame(true);
+      fund.reason = overTheSafeLine ? "Over Safe Line" : "Suspicious Decline"; // Add reason to fund
     }
   }, [fund.fund, fund.newFund]);
 

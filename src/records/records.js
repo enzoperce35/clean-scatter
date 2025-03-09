@@ -6,8 +6,6 @@ export function createRecord({ bet, spins }) {
     change: null,
     newFund: null,
     newHigh: null,
-    isIncreasing: null,
-    hasSignificantIncrease: null,
   };
 }
 
@@ -18,7 +16,7 @@ export function updateRecord(record, fund) {
     change: fund.change,
     newFund: fund.newFund,
     newHigh: fund.newHigh,
-    isIncreasing: fund.isIncreasing(),
-    hasSignificantIncrease: fund.hasSignificantIncrease(),
+    reason: fund.reason || null, // Store reason if endGame is true
   };
 }
+

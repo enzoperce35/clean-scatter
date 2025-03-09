@@ -70,7 +70,6 @@
 /* Responsive Styles */
 @media (max-width: 768px) {
   .records-table {
-    display: block;
     overflow-x: auto;
   }
   
