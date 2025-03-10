@@ -11,32 +11,60 @@ export default function Scatter({ fund }) {
   const [textEffect, setTextEffect] = useState(false);
   const [fundUpdated, setFundUpdated] = useState(false);
   const [showRecords, setShowRecords] = useState(false);
-  const initialFund = parseInt(sessionStorage.getItem('initialFund'));
+  const [fundReason, setFundReason] = useState(null);
   const bets = [0.5, 1, 2, 3, 5, 10, 20, 30, 40, 50, 80, 100, 200, 500, 1000];
-  const spins = fund.hasSignificantIncrease() && fund.isIncreasing() ? 14 : 25;
+  const spins = fund.isIncreasing() ? (fund.hasSignificantIncrease() ? 14 : 20) : 25;
 
+  // Update records AFTER fund updates
   useEffect(() => {
+    if (!fundUpdated) return;
+
+    setRecords((prev) => {
+      const updatedRecord = [...prev];
+      updatedRecord[updatedRecord.length - 1] = updateRecord(updatedRecord[updatedRecord.length - 1], fund);
+      return updatedRecord;
+    });
+
+    setFundUpdated(false);
+  }, [fundUpdated]);
+
+  // Analyze records AFTER fund updates
+  useEffect(() => {
+    if (records.length === 0) return;
+
     const newBet = calculateBet();
     setBet(newBet);
-  
-    const suspiciousDecline = sumNegativeChanges() >= 25 && fund.newFund < fund.fund * 0.80;
-    const overTheSafeLine = (fund.newFund - newBet * spins) < ((fund.newHigh / 2) + (0.40 * (fund.newHigh - initialFund)));
-  
-    if (!fund.isIncreasing() && newBet && (overTheSafeLine || suspiciousDecline)) {
-      setEndGame(true);
-      fund.reason = overTheSafeLine ? "Over Safe Line" : "Suspicious Decline"; // Add reason to fund
-    }
-  }, [fund.fund, fund.newFund]);
 
-  useEffect(() => {
-    if (records.length > 0) {
-      setRecords((prev) => {
-        const updatedRecord = [...prev];
-        updatedRecord[updatedRecord.length - 1] = updateRecord(updatedRecord[updatedRecord.length - 1], fund);
-        return updatedRecord;
-      });
+    const lastFiveRecords = records.slice(-5);
+    const negativeChanges = lastFiveRecords.filter(record => record.change !== null && record.change <= -5).length;
+    const suspiciousDecline = negativeChanges >= 3 && fund.newFund <= fund.newHigh * 0.80;
+
+    const highestHalf = fund.newHigh / 2;
+    const presumedResult = fund.newFund - newBet * spins;
+    const overTheSafeLine = presumedResult < highestHalf;
+
+    if (!fund.isIncreasing() && newBet && (overTheSafeLine || suspiciousDecline)) {
+      const reason = overTheSafeLine ? "Over The Safe Line" : "Suspicious Decline";
+      setFundReason(reason); // Store reason in state before updating records
+      setEndGame(true);
     }
-  }, [fundUpdated]);
+  }, [records]);
+
+  // Update reason when endGame is triggered
+  useEffect(() => {
+    if (!endGame || !fundReason) return;
+
+    setRecords((prev) => {
+      const updatedRecord = [...prev];
+      if (updatedRecord.length > 0) {
+        updatedRecord[updatedRecord.length - 1] = {
+          ...updatedRecord[updatedRecord.length - 1],
+          reason: fundReason,
+        };
+      }
+      return updatedRecord;
+    });
+  }, [endGame, fundReason]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -44,7 +72,7 @@ export default function Scatter({ fund }) {
 
     if (!isNaN(newFund)) {
       fund.setNewFund(newFund);
-      setFundUpdated((prev) => !prev);
+      setFundUpdated(true);
       setRecords((prev) => [...prev, createRecord({ bet, spins })]);
     }
 
@@ -57,13 +85,13 @@ export default function Scatter({ fund }) {
 
   const sumNegativeChanges = () =>
     records.reduce((total, record) => total + (record.change < 0 ? Math.abs(record.change) : 0), 0);
-  
+
   const calculateBet = () => {
     const play = (test = false) => {
       const playable = (fund.fund / (test ? 5 : 2)) / 25;
       return bets.filter((bet) => bet <= playable).pop() || bets[0];
     };
-    
+
     const rebound = () => {
       const playable = (fund.fund - fund.newFund) / 100;
       return bets.find((bet) => bet >= playable) || null;

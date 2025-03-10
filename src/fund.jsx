@@ -19,7 +19,7 @@ class Fund {
     const newFund = parseInt(value, 10);
     
     if (!isNaN(newFund)) {
-      this.change = ((newFund - this.newFund) / this.newFund) * 100;
+      this.change = ((newFund - this.newFund) / this.newHigh) * 100;
       this.newFund = newFund;
       
       // Automatically update this.fund if newFund is at least 50% higher than this.fund
