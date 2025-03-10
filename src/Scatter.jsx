@@ -5,14 +5,14 @@ import { createRecord, updateRecord } from "./records/records";
 
 export default function Scatter({ fund }) {
   const inputRef = useRef(null);
-  const [bet, setBet] = useState(0);
+  const bets = [0.5, 1, 2, 3, 5, 10, 20, 30, 40, 50, 80, 100, 200, 500, 1000];
+  const [bet, setBet] = useState(bets.filter((bet) => bet <= ((fund.fund / 5) / 25)).pop() || bets[0]);
   const [records, setRecords] = useState([]);
   const [endGame, setEndGame] = useState(false);
   const [textEffect, setTextEffect] = useState(false);
   const [fundUpdated, setFundUpdated] = useState(false);
   const [showRecords, setShowRecords] = useState(false);
   const [fundReason, setFundReason] = useState(null);
-  const bets = [0.5, 1, 2, 3, 5, 10, 20, 30, 40, 50, 80, 100, 200, 500, 1000];
   const spins = fund.isIncreasing() ? (fund.hasSignificantIncrease() ? 14 : 20) : 25;
 
   // Update records AFTER fund updates
