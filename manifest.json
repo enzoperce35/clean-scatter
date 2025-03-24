@@ -3,13 +3,18 @@
   "short_name": "Clean Scatter",
   "icons": [
     {
-      "src": "/public/clean-scatter-logo",
+      "src": "/public/clean-scatter-logo.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/public/clean-scatter-logo",
+      "src": "/public/clean-scatter-logo.png",
       "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/public/clean-scatter-logo.png",
+      "sizes": "180x180",
       "type": "image/png"
     }
   ],
