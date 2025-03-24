@@ -10,8 +10,7 @@ function App() {
     const inputFund = parseInt(new FormData(e.target).get("fund"), 10);
     
     if (!isNaN(inputFund)) {
-      const newFund = new Fund();
-      newFund.setFund(inputFund)
+      const newFund = new Fund(inputFund);
 
       sessionStorage.setItem('initialFund', inputFund);
       

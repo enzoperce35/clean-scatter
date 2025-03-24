@@ -88,15 +88,18 @@ export default function Scatter({ fund }) {
 
   const calculateBet = () => {
     const play = (test = false) => {
-      const playable = (fund.fund / (test ? 5 : 2)) / 25;
+      let profitModifier = fund.profit / 500;
+      if (profitModifier >= 2.5) profitModifier = 2.5; // Cap profitModifier at 2.5
+
+      const playable = (fund.fund / (test ? 5 : 2 + profitModifier)) / 25;
       return bets.filter((bet) => bet <= playable).pop() || bets[0];
     };
-
+  
     const rebound = () => {
       const playable = (fund.fund - fund.newFund) / 100;
       return bets.find((bet) => bet >= playable) || null;
     };
-
+  
     return fund.isIncreasing() ? play(fund.hasSignificantIncrease()) : rebound();
   };
 
