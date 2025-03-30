@@ -1,0 +1,61 @@
+@import "title-carousel";
+@import "fund-form";
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 95vh;
+  margin: 0;
+  padding: 1rem;
+  background-color: #f8f9fa;
+}
+
+#root {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.records-toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.appear-active {
+  animation: fadeIn 1.5s ease-out forwards;
+  opacity: 0;
+}
+
+@media (max-width: 600px) {
+  body {
+    min-height: 60vh;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
