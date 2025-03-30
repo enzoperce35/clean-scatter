@@ -19,7 +19,7 @@ class Fund {
     }
     
     return inputNumber+accumulatedNumber;
-}
+  }
 
   setFund(value) {
     const fundValue = parseInt(value, 10);
